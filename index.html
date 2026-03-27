@@ -1,10 +1,194 @@
- <!DOCTYPE html>
-> <html>
-> <head>
->     <title>My Data Viz Site</title>
-> </head>
-> <body>
->     <h1>Hello World!</h1>
->     <p>This site will soon contain interactive data visualizations about crime in San Francisco.</p>
-> </body>
-> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SF Crime Analysis Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --card-bg: #16213e;
+            --accent-color: #e94560;
+            --secondary-accent: #0f3460;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0c0;
+            --hover-color: #f05470;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            margin: 0;
+            background: linear-gradient(to right, #ffffff, #e94560);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 1.5rem auto 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .card-content {
+            padding: 2rem;
+        }
+
+        .card h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            margin-top: 0;
+            color: #ffffff;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .viz-frame {
+            width: 100%;
+            height: 450px;
+            background-color: #fff; /* fallback */
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .viz-img {
+            width: 100%;
+            display: block;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--hover-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>SF Crime Analysis</h1>
+        <p class="subtitle">An interactive exploration of two decades of crime patterns in San Francisco, uncovering insights through temporal trends, spatial density, and category focus.</p>
+        <div style="margin-top: 2rem; display: inline-block; text-align: left; background: rgba(255,255,255,0.05); padding: 1rem 2rem; border-radius: 8px; border-left: 4px solid var(--accent-color);">
+            <h3 style="margin-top: 0; font-size: 1.1rem; color: var(--accent-color);">Personal Focus Crimes:</h3>
+            <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-secondary); font-size: 0.9rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem 2rem;">
+                <li>Larceny Theft</li>
+                <li>Motor Vehicle Theft</li>
+                <li>Assault</li>
+                <li>Burglary</li>
+                <li>Malicious Mischief</li>
+                <li>Drug Offense</li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="grid">
+            <!-- Plotly Interactive Trends -->
+            <div class="card">
+                <iframe src="visualizations/hourly_trends.html" frameborder="0" class="viz-frame"></iframe>
+                <div class="card-content">
+                    <h2>Hourly Crime Patterns</h2>
+                    <p>Interactive Plotly visualization showing normalized hourly distributions for focus crimes. Click the legend to compare different types.</p>
+                    <a href="visualizations/hourly_trends.html" target="_blank" class="btn">Full Screen View</a>
+                </div>
+            </div>
+
+            <!-- Folium Heatmap -->
+            <div class="card">
+                <iframe src="visualizations/crime_heatmap.html" frameborder="0" class="viz-frame"></iframe>
+                <div class="card-content">
+                    <h2>Geospatial Crime Density</h2>
+                    <p>Folium-powered interactive heatmap showing the density of focus crimes across San Francisco districts.</p>
+                    <a href="visualizations/crime_heatmap.html" target="_blank" class="btn">View Full Map</a>
+                </div>
+            </div>
+
+            <!-- Static Matplotlib Summary -->
+            <div class="card">
+                <img src="images/crime_counts.png" alt="Crime Volume Summary" class="viz-img">
+                <div class="card-content">
+                    <h2>Category Overview</h2>
+                    <p>Static Matplotlib summary of the total volumes for our Personal Focus Crimes, highlighting which incidents occur most frequently.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Lorenzo Gelao - Social Data Science Project</p>
+    </footer>
+
+</body>
+</html>
