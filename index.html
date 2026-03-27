@@ -8,14 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #1a1a2e;
-            --header-bg: #16213e;
-            --card-bg: rgba(30, 41, 59, 0.6);
+            --bg-color: #0b0b14;
+            --card-bg: rgba(15, 23, 42, 0.85);
             --accent-color: #16c79a;
-            --accent-glow: rgba(22, 199, 154, 0.25);
+            --accent-glow: rgba(22, 199, 154, 0.3);
             --text-primary: #f8f9fa;
             --text-secondary: #94a3b8;
-            --border: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         * { box-sizing: border-box; }
@@ -27,145 +26,139 @@
             margin: 0;
             padding: 0;
             line-height: 1.7;
-            overflow-x: hidden;
         }
 
         header {
             width: 100%;
-            padding: 8rem 2rem 6rem;
-            background: linear-gradient(180deg, var(--header-bg) 0%, var(--bg-color) 100%);
+            min-height: 90vh;
+            background: linear-gradient(rgba(11, 11, 20, 0.6), rgba(11, 11, 20, 1)), 
+                        url('images/sf_bg.png') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 2rem;
+            border-bottom: 3px solid var(--accent-color);
         }
 
         h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: clamp(3rem, 10vw, 5rem);
             margin: 0;
             color: #ffffff;
-            letter-spacing: -2px;
+            letter-spacing: -3px;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.8);
         }
 
-        .header-accent { color: var(--accent-color); }
+        .header-accent { color: var(--accent-color); text-shadow: 0 0 15px var(--accent-glow); }
 
         .intro {
             max-width: 800px;
             margin: 2rem auto;
-            font-size: 1.25rem;
-            color: var(--text-secondary);
+            font-size: 1.4rem;
+            color: #e2e8f0;
             font-weight: 300;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
         .container {
             max-width: 1300px;
-            margin: 0 auto 10rem;
+            margin: -5rem auto 10rem;
             padding: 0 2rem;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Section Spacing */
-        section { margin-bottom: 8rem; }
+        section { margin-bottom: 10rem; }
 
         .section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 3rem;
-            border-left: 5px solid var(--accent-color);
-            padding-left: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
         }
 
-        /* Large Featured View for the main interactive chart */
+        .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-color), transparent);
+        }
+
+        /* Large Featured View */
         .featured-view {
             background: var(--card-bg);
-            border-radius: 24px;
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
             border: 1px solid var(--border);
-            padding: 3rem;
-            margin-bottom: 4rem;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            padding: 4rem;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.7);
         }
 
         .viz-large {
             width: 100%;
-            height: 650px;
+            height: 700px;
             border: none;
-            border-radius: 12px;
-            background: #000;
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
 
-        /* Grid for secondary items */
+        /* Secondary Grid */
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 3rem;
+            gap: 4rem;
         }
 
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             border: 1px solid var(--border);
-            border-radius: 24px;
+            border-radius: 30px;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s ease;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
+        .card:hover { 
+            transform: scale(1.02);
             border-color: var(--accent-color);
-            box-shadow: 0 0 40px var(--accent-glow);
         }
 
-        .viz-window {
-            width: 100%;
-            height: 450px;
-            border: none;
-        }
+        .viz-window { width: 100%; height: 500px; border: none; }
+        .viz-img-box { background: #000; padding: 2rem; }
+        .viz-img { width: 100%; height: auto; border-radius: 8px; }
 
-        .viz-img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+        .card-body { padding: 3rem; }
+        .card-body h2 { font-family: 'Outfit', sans-serif; font-size: 1.8rem; margin: 0 0 1rem; color: var(--accent-color); }
+        .card-body p { color: var(--text-secondary); font-size: 1.1rem; }
 
-        .card-body {
-            padding: 2.5rem;
-        }
-
-        .card-body h2 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.75rem;
-            margin: 0 0 1rem;
-            color: var(--accent-color);
-        }
-
-        .card-body p {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .pill {
+        .badge {
             display: inline-block;
-            padding: 0.4rem 1rem;
-            background: rgba(22, 199, 154, 0.15);
-            color: var(--accent-color);
-            border-radius: 100px;
+            padding: 0.5rem 1.2rem;
+            background: var(--accent-color);
+            color: #000;
+            border-radius: 8px;
             font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
         }
 
         footer {
             text-align: center;
-            padding: 6rem 2rem;
-            background: var(--header-bg);
+            padding: 8rem 2rem;
+            background: #05050a;
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
         }
 
-        @media (max-width: 968px) {
+        @media (max-width: 1024px) {
             .grid { grid-template-columns: 1fr; }
-            .featured-view { padding: 1.5rem; }
+            .featured-view { padding: 2rem; }
             .viz-large { height: 500px; }
         }
     </style>
@@ -173,53 +166,47 @@
 <body>
 
     <header>
-        <h1>SF Crime: <span class="header-accent">Two Decades</span> of Data</h1>
+        <h1>SF <span class="header-accent">CRIME</span> ARCHIVE</h1>
         <p class="intro">
-            A comprehensive visual inquiry into the shifting safety landscape of San Francisco. 
-            Analyze twenty years of incident reports through modern, interactive data science lenses.
+            A high-fidelity investigation into two decades of public safety data. 
+            Visualizing the trends, hotspots, and statistics that define San Francisco's history.
         </p>
     </header>
 
     <div class="container">
         
-        <!-- Featured View: Temporal Shifts -->
         <section>
-            <h2 class="section-title">Temporal Shifts</h2>
+            <h2 class="section-title">Temporal Evolution</h2>
             <div class="featured-view">
-                <div class="pill">Interactive Animation</div>
+                <div class="badge">Dynamic Probability</div>
                 <p style="margin-bottom: 2rem; color: var(--text-secondary);">
-                    This visualization shows the <strong>probability distribution</strong> of crimes across the 24-hour cycle. 
-                    Unlike static counts, normalization allows us to see when specific crimes are most likely to occur. 
-                    <br><em>Tip: Use the slider or 'Play' button to witness how these patterns have evolved since 2003.</em>
+                    Witness how crime pattern peaks follow the city's heartbeat. This animation normalizes data across categories, highlighting which hours are disproportionately active for specific crimes. Use the slider to track 20+ years of change.
                 </p>
                 <iframe src="visualizations/animated_trends.html" class="viz-large"></iframe>
             </div>
         </section>
 
-        <!-- Secondary Views: Spatial and Statistical -->
         <section>
-            <h2 class="section-title">Spatial & Statistical Context</h2>
+            <h2 class="section-title">Geospatial Intelligence</h2>
             <div class="grid">
                 
-                <!-- Density Map -->
                 <div class="card">
                     <iframe src="visualizations/crime_heatmap.html" class="viz-window"></iframe>
                     <div class="card-body">
-                        <div class="pill">Geospatial Heatmap</div>
-                        <h2>Hotspot Intensity</h2>
-                        <p>Clustered density mapping of incidents. Areas in <strong>Yellow/Cyan</strong> represent the highest frequency of focus crimes, providing a clear view of patrol priority zones.</p>
+                        <div class="badge">Choropleth Analytics</div>
+                        <h2>District Density Comparison</h2>
+                        <p>A formal choropleth analysis by SF Police District. By aggregating total incidents into geographic boundaries, we can objectively identify which precincts bear the highest reporting load.</p>
                     </div>
                 </div>
 
-                <!-- Volume Bar -->
                 <div class="card">
-                    <div style="background: #000; padding: 2rem;">
+                    <div class="viz-img-box">
                         <img src="images/crime_counts.png" alt="Crime Volume Summary" class="viz-img">
                     </div>
                     <div class="card-body">
-                        <div class="pill">Statistical Overview</div>
-                        <h2>Incident Volume</h2>
-                        <p>A high-level comparison of total reported volume per category. This provides the scale needed to understand the relative impact of each crime type.</p>
+                        <div class="badge">Static Volume</div>
+                        <h2>Impact by Category</h2>
+                        <p>A definitive scale of the focus crimes tracked in this study. This chart provides the baseline understanding of which categories dominant the city's historical logbook.</p>
                     </div>
                 </div>
 
@@ -229,7 +216,7 @@
     </div>
 
     <footer>
-        &copy; 2026 Lorenzo Gelao | Data Portfolio | DTU Social Data Science
+        &copy; 2026 Lorenzo Gelao | Senior Project | Social Data Science | DTU
     </footer>
 
 </body>
