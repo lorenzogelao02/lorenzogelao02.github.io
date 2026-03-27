@@ -4,23 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SF Crime: Two Decades of Data</title>
-    <!-- Google Fonts: Outfit for headings, Inter for body -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #1a1a2e;
-            --card-bg: rgba(22, 33, 62, 0.7);
+            --header-bg: #16213e;
+            --card-bg: rgba(30, 41, 59, 0.6);
             --accent-color: #16c79a;
-            --accent-glow: rgba(22, 199, 154, 0.3);
+            --accent-glow: rgba(22, 199, 154, 0.25);
             --text-primary: #f8f9fa;
             --text-secondary: #94a3b8;
-            --card-border: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        * {
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
+        * { box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
@@ -28,189 +26,210 @@
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
         }
 
         header {
             width: 100%;
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
-            border-bottom: 2px solid var(--accent-color);
+            padding: 8rem 2rem 6rem;
+            background: linear-gradient(180deg, var(--header-bg) 0%, var(--bg-color) 100%);
             text-align: center;
         }
 
-        header h1 {
+        h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-size: clamp(2.5rem, 8vw, 4rem);
             margin: 0;
-            letter-spacing: -1px;
             color: #ffffff;
-            text-shadow: 0 0 20px var(--accent-glow);
+            letter-spacing: -2px;
         }
 
+        .header-accent { color: var(--accent-color); }
+
         .intro {
-            max-width: 700px;
-            margin: 2rem auto 0;
-            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 2rem auto;
+            font-size: 1.25rem;
             color: var(--text-secondary);
             font-weight: 300;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 5rem auto;
+            max-width: 1300px;
+            margin: 0 auto 10rem;
             padding: 0 2rem;
         }
 
+        /* Section Spacing */
+        section { margin-bottom: 8rem; }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Large Featured View for the main interactive chart */
+        .featured-view {
+            background: var(--card-bg);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            padding: 3rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .viz-large {
+            width: 100%;
+            height: 650px;
+            border: none;
+            border-radius: 12px;
+            background: #000;
+        }
+
+        /* Grid for secondary items */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
         }
 
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
             overflow: hidden;
-            position: relative;
             display: flex;
             flex-direction: column;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .card:hover {
             transform: translateY(-10px);
             border-color: var(--accent-color);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+            box-shadow: 0 0 40px var(--accent-glow);
         }
 
         .viz-window {
             width: 100%;
-            height: 400px;
+            height: 450px;
             border: none;
-            background-color: rgba(0,0,0,0.2);
-            border-bottom: 1px solid var(--card-border);
         }
 
         .viz-img {
             width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-bottom: 1px solid var(--card-border);
+            height: auto;
+            display: block;
         }
 
         .card-body {
-            padding: 2rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
+            padding: 2.5rem;
         }
 
         .card-body h2 {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.6rem;
-            margin: 0 0 1rem 0;
+            font-size: 1.75rem;
+            margin: 0 0 1rem;
             color: var(--accent-color);
         }
 
         .card-body p {
-            font-size: 1rem;
             color: var(--text-secondary);
-            margin: 0 0 2rem 0;
-            flex-grow: 1;
+            margin-bottom: 2rem;
         }
 
-        .card-link {
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .card-link:hover {
+        .pill {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(22, 199, 154, 0.15);
             color: var(--accent-color);
-        }
-
-        .card-link::after {
-            content: '→';
-            transition: transform 0.3s ease;
-        }
-
-        .card-link:hover::after {
-            transform: translateX(5px);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
         footer {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 6rem 2rem;
+            background: var(--header-bg);
             color: var(--text-secondary);
             font-size: 0.9rem;
-            opacity: 0.6;
-            margin-top: 4rem;
-            border-top: 1px solid var(--card-border);
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            header { padding: 4rem 1rem; }
-            .container { margin: 3rem auto; }
-            .grid { gap: 1.5rem; }
+        @media (max-width: 968px) {
+            .grid { grid-template-columns: 1fr; }
+            .featured-view { padding: 1.5rem; }
+            .viz-large { height: 500px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>SF Crime: Two Decades of Data</h1>
+        <h1>SF Crime: <span class="header-accent">Two Decades</span> of Data</h1>
         <p class="intro">
-            An interactive deep-dive into San Francisco's crime landscape from 2003 to the present day. 
-            Discover hidden patterns through high-fidelity visualizations and explore how the city has evolved over twenty years.
+            A comprehensive visual inquiry into the shifting safety landscape of San Francisco. 
+            Analyze twenty years of incident reports through modern, interactive data science lenses.
         </p>
     </header>
 
     <div class="container">
-        <div class="grid">
-            
-            <!-- Animated Trends Card -->
-            <div class="card">
-                <iframe src="visualizations/animated_trends.html" class="viz-window"></iframe>
-                <div class="card-body">
-                    <h2>Temporal Evolution</h2>
-                    <p>Watch how crime distributions shift across the 24-hour cycle year by year.</p>
-                    <a href="visualizations/animated_trends.html" target="_blank" class="card-link">Explore animation</a>
-                </div>
+        
+        <!-- Featured View: Temporal Shifts -->
+        <section>
+            <h2 class="section-title">Temporal Shifts</h2>
+            <div class="featured-view">
+                <div class="pill">Interactive Animation</div>
+                <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+                    This visualization shows the <strong>probability distribution</strong> of crimes across the 24-hour cycle. 
+                    Unlike static counts, normalization allows us to see when specific crimes are most likely to occur. 
+                    <br><em>Tip: Use the slider or 'Play' button to witness how these patterns have evolved since 2003.</em>
+                </p>
+                <iframe src="visualizations/animated_trends.html" class="viz-large"></iframe>
             </div>
+        </section>
 
-            <!-- Heatmap Card -->
-            <div class="card">
-                <iframe src="visualizations/crime_heatmap.html" class="viz-window"></iframe>
-                <div class="card-body">
-                    <h2>Spatial Density</h2>
-                    <p>Interactive heatmap identifying geographic hotspots for major incidents across city districts.</p>
-                    <a href="visualizations/crime_heatmap.html" target="_blank" class="card-link">View full map</a>
+        <!-- Secondary Views: Spatial and Statistical -->
+        <section>
+            <h2 class="section-title">Spatial & Statistical Context</h2>
+            <div class="grid">
+                
+                <!-- Density Map -->
+                <div class="card">
+                    <iframe src="visualizations/crime_heatmap.html" class="viz-window"></iframe>
+                    <div class="card-body">
+                        <div class="pill">Geospatial Heatmap</div>
+                        <h2>Hotspot Intensity</h2>
+                        <p>Clustered density mapping of incidents. Areas in <strong>Yellow/Cyan</strong> represent the highest frequency of focus crimes, providing a clear view of patrol priority zones.</p>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Volume Chart Card -->
-            <div class="card">
-                <img src="images/crime_counts.png" alt="Crime Volume Summary" class="viz-img">
-                <div class="card-body">
-                    <h2>Category Volume</h2>
-                    <p>A statistical summary comparing the prevalence of different focus crimes across the dataset.</p>
-                    <a href="images/crime_counts.png" target="_blank" class="card-link">View detailed chart</a>
+                <!-- Volume Bar -->
+                <div class="card">
+                    <div style="background: #000; padding: 2rem;">
+                        <img src="images/crime_counts.png" alt="Crime Volume Summary" class="viz-img">
+                    </div>
+                    <div class="card-body">
+                        <div class="pill">Statistical Overview</div>
+                        <h2>Incident Volume</h2>
+                        <p>A high-level comparison of total reported volume per category. This provides the scale needed to understand the relative impact of each crime type.</p>
+                    </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
+        </section>
+
     </div>
 
     <footer>
-        &copy; 2026 Lorenzo Gelao | Social Data Science | DTU
+        &copy; 2026 Lorenzo Gelao | Data Portfolio | DTU Social Data Science
     </footer>
 
 </body>
